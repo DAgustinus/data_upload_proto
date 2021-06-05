@@ -1,14 +1,6 @@
 version: "3.8"
 services:
-  pp_env:
-    image: postgresql_python_env
-    build:
-      context: .
-      dockerfile: Dockerfile
-
-#services:
-##  image: postgresql_python_env
-#  app :
-#    build: ./src/app/
-#  db:
-#    build: ./src/db/
+  app :
+    build: ./src/app/
+  db:
+    build: ./src/db/

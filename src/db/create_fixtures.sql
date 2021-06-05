@@ -1,4 +1,5 @@
-CREATE TABLE IF NOT EXISTS numbers (
-    number BIGINT,
-    timestamp BIGINT
+CREATE TABLE IF NOT EXISTS testformat1 (
+    name VARCHAR,
+    valid BOOLEAN,
+    count INT
 );
