@@ -2,15 +2,6 @@ import pandas as pd
 from sqlalchemy import create_engine
 
 
-# engine = create_engine('postgresql://username:password@localhost:5432/mydatabase')
-# df.to_sql('table_name', engine)
-
-# db_name = 'database'
-# db_user = 'username'
-# db_pass = 'secret'
-# db_host = 'db'
-# db_port = '5432'
-
 class PostgresqlConn:
     def __init__(
             self,
@@ -28,6 +19,8 @@ class PostgresqlConn:
         if isinstance(df, pd.DataFrame):
             print(f"Inserting data to {table_name}")
             df.to_sql(table_name, self.db_engine, if_exists='append', index=False, chunksize=10000)
+        else:
+            raise TypeError("Data has to be a pd.DataFrame type")
 
     def query_psql(self, query):
         try:
