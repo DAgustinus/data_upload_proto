@@ -1,4 +1,3 @@
-import logging
 import os
 import sys
 import pandas as pd
@@ -13,10 +12,8 @@ specs_dir = os.path.join(app_dir, "specs")
 log_file = os.path.join(app_dir, "logs", f"log_{str(datetime.today().date())}.log")
 
 sys.path.append(util_dir)
-
 import postgresql_uploader as PU
 
-logging.basicConfig(filename=log_file, level=logging.DEBUG)
 
 class DataProcessor:
     def __init__(self):
@@ -32,11 +29,6 @@ class DataProcessor:
         # 2. Get all data files based of the available specs
         # 3. Process the available files and store it in self.data_files
         self.get_specs()
-        self.get_data_files()
-        self.process_files()
-
-    def check_files(self):
-        self.data_files = {}
         self.get_data_files()
         self.process_files()
 
@@ -144,3 +136,28 @@ class DataProcessor:
                 print(f"Row too long - {len(row)}/{row_length}: {row}")
 
         return pd.DataFrame(new_rows)
+
+
+def cleanup():
+    try:
+        os.rename(
+            os.path.join(data_dir, "testformat1_2020_06_28_processed.txt"),
+            os.path.join(data_dir, "testformat1_2020_06_28.txt")
+        )
+    except FileNotFoundError as fe:
+        print(f"{fe}")
+
+def main():
+    dp = DataProcessor()
+
+    # psql_conn = PU.PostgresqlConn()
+    for spec, df in dp.data_files.items():
+        # psql_conn.df_to_psql(df, spec)da
+        print(f"\nSpec: {spec}")
+        print("\n", df)
+        print("\n", df.dtypes)
+
+    cleanup()
+
+if __name__ == "__main__":
+    main()

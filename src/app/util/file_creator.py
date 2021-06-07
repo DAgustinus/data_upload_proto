@@ -25,7 +25,7 @@ class FileCreator:
 
     def create_file(self):
         for spec, metadata in self.specs.items():
-            print(f"SPEC: {spec}")
+            # print(f"SPEC: {spec}")
             rows = []
             for i in range(self.row_length):
                 row = ''
@@ -59,8 +59,14 @@ class FileCreator:
 
     @staticmethod
     def _get_word(length):
-        rand_length = random.randint(max(1, length-3), length)
-        empty_space = length - rand_length
+        # Create random error row
+        if random.randint(1, 9) == 5:
+            print("There will be an error on row")
+            rand_length = length + 1
+            empty_space = 0
+        else:
+            rand_length = random.randint(max(1, length-3), length)
+            empty_space = length - rand_length
         return ''.join([random.choice(string.ascii_lowercase) for _ in range(rand_length)]) + (' ' * empty_space)
 
     @staticmethod
