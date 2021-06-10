@@ -31,6 +31,7 @@ class DataProcessor:
         self.get_specs()
         self.get_data_files()
         self.process_files()
+        cleanup()
 
     def get_specs(self):
         """
@@ -174,17 +175,3 @@ def cleanup():
         )
     except FileNotFoundError as fe:
         print(f"{fe}")
-
-
-def main():
-    dp = DataProcessor()
-
-    psql_conn = PU.PostgresqlConn()
-    for spec, df in dp.data_files.items():
-        psql_conn.df_to_psql(df, spec)
-
-    cleanup()
-
-
-if __name__ == "__main__":
-    main()
