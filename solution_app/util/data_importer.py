@@ -54,6 +54,7 @@ class DataProcessor:
             self.data_files[spec] = glob(os.path.join(data_dir, f"{spec}*[!_processed].txt"))
             processed_files = glob(os.path.join(data_dir, "*_processed.txt"))
 
+            # For clarity
             # Printing new files
             for i in self.data_files[spec]:
                 print(f">>> {i}")
@@ -147,17 +148,16 @@ def cleanup():
     except FileNotFoundError as fe:
         print(f"{fe}")
 
+
 def main():
     dp = DataProcessor()
 
-    # psql_conn = PU.PostgresqlConn()
+    psql_conn = PU.PostgresqlConn()
     for spec, df in dp.data_files.items():
-        # psql_conn.df_to_psql(df, spec)da
-        print(f"\nSpec: {spec}")
-        print("\n", df)
-        print("\n", df.dtypes)
+        psql_conn.df_to_psql(df, spec)
 
     cleanup()
+
 
 if __name__ == "__main__":
     main()
