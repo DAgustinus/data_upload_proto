@@ -33,6 +33,10 @@ class DataProcessor:
         self.process_files()
 
     def get_specs(self):
+        """
+        Gets all of the specs within the ./specs folder
+        :return: stores all of the specs information within self.all_specs
+        """
         specs_files = glob(os.path.join(specs_dir, "*"))
 
         for spec in specs_files:
@@ -50,6 +54,10 @@ class DataProcessor:
             }
 
     def get_data_files(self):
+        """
+        Gets all of the data files based on the specs within the self.all_specs
+        :return: stores all of the data files information in self.data_files {"spec_name": [file1.txt, file2.txt, ...]}
+        """
         for spec in self.all_specs:
             self.data_files[spec] = glob(os.path.join(data_dir, f"{spec}*[!_processed].txt"))
             processed_files = glob(os.path.join(data_dir, "*_processed.txt"))
@@ -64,6 +72,10 @@ class DataProcessor:
                     print(f"And {len(processed_files) - 5} other files")
 
     def process_files(self):
+        """
+        Process all of the files in self.data_files. Replace the list variables with pd.DataFrame
+        :return: {"spec_name": [pd.DataFrame 1, pd.DataFrame 2, ...]}
+        """
         for spec, files in self.data_files.items():
             column_types = self.all_specs[spec]['column_types']
 
@@ -90,6 +102,11 @@ class DataProcessor:
 
     @staticmethod
     def _data_types_converter(column_types):
+        """
+        Convert the data types within the DataFrame to the correct format
+        :param column_types: self.all_specs[spec_name]["column_types"]
+        :return: returns a dictionary with the column name and type
+        """
         out_types = {}
         dictionary = {
             "TEXT": str,
@@ -109,6 +126,12 @@ class DataProcessor:
 
     @staticmethod
     def _get_text_to_df(file, metadata):
+        """
+        Read the text files and convert them to a df
+        :param file: file location
+        :param metadata: self.all_specs[spec_name]
+        :return: pd.DataFrame
+        """
         with open(file, 'r') as f:
             rows = f.readlines()
 
@@ -140,6 +163,10 @@ class DataProcessor:
 
 
 def cleanup():
+    """
+    Reset the file naming to the original
+    :return: N/A
+    """
     try:
         os.rename(
             os.path.join(data_dir, "testformat1_2020_06_28_processed.txt"),
