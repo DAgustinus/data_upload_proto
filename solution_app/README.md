@@ -1,4 +1,4 @@
-# Allbirds Batch Processor Exercise
+# Batch Processor Exercise
 
 This exercise showcase what it takes to process batch data, text files, with column width delimited.
 
